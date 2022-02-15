@@ -1,0 +1,13 @@
+<component name="CopyrightManager">
+  <settings default="MPL-2.0">
+    <LanguageOptions name="Ruby">
+      <option name="fileTypeOverride" value="3" />
+      <option name="relativeBefore" value="false" />
+      <option name="block" value="false" />
+    </LanguageOptions>
+    <LanguageOptions name="Shell Script">
+      <option name="fileTypeOverride" value="3" />
+      <option name="relativeBefore" value="false" />
+    </LanguageOptions>
+  </settings>
+</component>
