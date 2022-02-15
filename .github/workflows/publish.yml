@@ -1,0 +1,42 @@
+name: Publish jrtranslit to RubyGems
+
+on:
+  push:
+    tags:
+      - '*.*.*'
+
+jobs:
+  build:
+    name: Publish gem to RubyGems
+    runs-on: ubuntu-20.04
+    permissions:
+      contents: read
+    env:
+      GITHUB_USER: 'thedeadferryman'
+      REPO_OWNER: "${{ github.repository_owner }}"
+      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      JRTRANSLIT_VERSION: "${{ github.ref_name }}"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+      - uses: ruby/setup-ruby@v1.92.0
+        with:
+          ruby-version: 'jruby-9.3.2.0'
+          bundler-cache: true
+      - name: Setup the environment
+        run: cat bin/setup | bash
+      - name: Set the gem version by tag
+        run: envsubst < lib/jrtranslit/version.template.rb > lib/jrtranslit/version.rb
+      - name: Publish to RubyGems
+        run: |
+          mkdir -p $HOME/.gem
+          touch $HOME/.gem/credentials
+          chmod 0600 $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+          gem build *.gemspec
+          gem push *.gem
+        env:
+          GEM_HOST_API_KEY: "${{secrets.RUBYGEMS_AUTH_TOKEN}}"
