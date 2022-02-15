@@ -22,8 +22,6 @@ Gem::Specification.new do |spec|
   spec.license = 'MPL-2.0'
   spec.required_ruby_version = '>= 2.6.0'
 
-  spec.metadata['allowed_push_host'] = REPO_URI
-
   spec.metadata['homepage_uri'] = REPO_URI
   spec.metadata['source_code_uri'] = REPO_URI
   spec.metadata['changelog_uri'] = "#{REPO_URI}/commits"
